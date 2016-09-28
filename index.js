@@ -140,13 +140,12 @@ var JUnitReporter = function (baseReporterDecorator, config, logger, helper, for
   }
 
   this.specSuccess = this.specSkipped = this.specFailure = function (browser, result) {
-    var testsuite = suites[browser.id]
 
-    if (!testsuite) {
-      return
+    if (!suites || !suites[browser.id]) {
+      return;
     }
 
-    var spec = testsuite.ele('testcase', {
+    var spec = suites[browser.id].ele('testcase', {
       name: nameFormatter(browser, result),
       time: ((result.time || 0) / 1000),
       classname: (typeof classNameFormatter === 'function' ? classNameFormatter : getClassName)(browser, result)
